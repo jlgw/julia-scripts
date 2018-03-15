@@ -1,7 +1,5 @@
 using PeriodicTable, InteractNext, Blink
 
-pt = PeriodicTable.PT()
-coordinates = [(el.data["xpos"],el.data["ypos"]) for el in pt.data]
 const width  = 300
 const height = 180
 const pad = 5
@@ -28,29 +26,25 @@ function color(i)
         return "lightgray"
     end
 end
-function draw_table(pt, i)
-    getx(el) = el.data["xpos"]
-    gety(el) = el.data["ypos"]
-    getcat(el) = el.data["category"]
-    elm = pt.data[i]
+function draw_table(i)
     dom"svg:svg[height=$height, width=$width]"(
                       dom"svg:rect[width = $(scale+2), height = $(scale+2), 
-                      x=$(getx(elm)*(scale+dist)-1), 
-                      y=$(gety(elm)*(scale+dist)-1),
+                      x=$(elements[i].xpos*(scale+dist)-1), 
+                      y=$(elements[i].ypos*(scale+dist)-1),
                       strokeWidth=3,
                       stroke=black]"(),
                  (dom"svg:rect[width = $scale, height = $scale, 
-                      x=$(getx(el)*(scale+dist)), 
-                      y=$(gety(el)*(scale+dist)),
-                      fill=$(color(getcat(el)))]"()
-                      for el in pt.data)...
+                  x=$(elements[j].xpos*(scale+dist)), 
+                  y=$(elements[j].ypos*(scale+dist)),
+                  fill=$(color(elements[j].category))]"()
+                  for j in 1:length(elements))...
                      )
 end
   
 ui = @manipulate for elementno in 1:119
-    el = pt.data[elementno].data
+    el = elements[elementno]
 
-    file = replace(el["spectral_img"], "https://en.wikipedia.org/wiki/File:", "")
+    file = replace(el.spectral_img, "https://en.wikipedia.org/wiki/File:", "")
     #Wikipedia hotlinking api
     imgdomain = "https://en.wikipedia.org/wiki/Special:Redirect/file/$file"
 
@@ -58,22 +52,22 @@ ui = @manipulate for elementno in 1:119
                "width" => "500")
     spectrum_node = Node(:div, Node(:br), "Spectrum:", Node(:br), Node(:img, attributes=attr))
 
-    if el["spectral_img"] == ""
+    if el.spectral_img == ""
         spectrum_node = Node(:div)
     end
 
     Node(:div, 
          Node(:br),
-         draw_table(pt, elementno),
-         Node(:div, "$(el["name"]), $(el["symbol"])"),
-         Node(:div, "$(el["category"])"),
+         draw_table(elementno),
+         Node(:div, "$(el.name), $(el.symbol)"),
+         Node(:div, "$(el.category)"),
          Node(:br),
-         Node(:div, "Summary: $(el["summary"])"),
+         Node(:div, "Summary: $(el.summary)"),
          Node(:br),
-         Node(:div, "Atomic mass: $(el["atomic_mass"])"),
-         Node(:div, "Density: $(el["density"]) g/cm³"),
-         Node(:div, "Melting point: $(el["melt"])°C"),
-         Node(:div, "Boiling point: $(el["boil"])°C"),
+         Node(:div, "Atomic mass: $(el.atomic_mass)"),
+         Node(:div, "Density: $(el.density) g/cm³"),
+         Node(:div, "Melting point: $(el.melt)°C"),
+         Node(:div, "Boiling point: $(el.boil)°C"),
          spectrum_node
     
         )
