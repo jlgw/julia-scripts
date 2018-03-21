@@ -1,7 +1,7 @@
 using PeriodicTable, InteractNext, CanvasWebIO
 
-const width  = 700
-const height = 400
+const width  = 800
+const height = 500
 const pad = max(width,height)/15
 const scale  = Int(floor(2/3*min((height-pad)/10, (width-pad)/18)))
 const dist   = Int(floor(scale/2))
@@ -30,10 +30,11 @@ function make_table()
     canvas = Canvas([height,width])
     el = "elmnt"
     for j in 1:length(elements)
-        addstatic!(canvas, dom"svg:text[x=$((elements[j].xpos+0.05)*(scale+dist)), 
-                      y=$((elements[j].ypos+0.4)*(scale+dist)),
+        addstatic!(canvas, dom"svg:text[x=$((elements[j].xpos+0.325)*(scale+dist)), 
+                      y=$((elements[j].ypos+0.45)*(scale+dist)),
                       id=$(uppercase(elements[j].name)),
-                      font-size=$(scale*0.45)]"(elements[j].symbol))
+                      font-size=$(scale*0.45),
+                      text-anchor=middle]"(elements[j].symbol))
         addclickable!(canvas, dom"svg:rect[width = $scale, height = $scale,
                       x=$(elements[j].xpos*(scale+dist)), 
                       y=$(elements[j].ypos*(scale+dist)),
