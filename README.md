@@ -11,3 +11,7 @@ Polynomial roots toy inspired by [Leo C. Stein's](https://duetosymmetry.com/tool
 
 <img src="demo2.gif" style="width: 500px;"/>
 
+## orbit.jl
+
+<img src="demo3.gif" style="width: 500px;"/>
+
