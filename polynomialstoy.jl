@@ -77,7 +77,7 @@ end
 rootsl = rootsofunity(nroots)
 gr = grid(width,height,xrange,yrange)
 
-roots_canvas = Canvas([height, width])
+roots_canvas = Canvas([height, width], true)
 
 addstatic!.(roots_canvas, gr)
 
@@ -96,7 +96,7 @@ function setroots(canvas::Canvas, pol::Polynomials.Poly)
     end
 end
 
-coeffs_canvas = Canvas([height, width])
+coeffs_canvas = Canvas([height, width], true)
 
 addstatic!.(coeffs_canvas, gr)
 
