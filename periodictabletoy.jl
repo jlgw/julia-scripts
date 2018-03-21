@@ -30,16 +30,17 @@ function make_table()
     canvas = Canvas([height,width])
     el = "elmnt"
     for j in 1:length(elements)
+        addstatic!(canvas, dom"svg:text[x=$((elements[j].xpos+0.05)*(scale+dist)), 
+                      y=$((elements[j].ypos+0.4)*(scale+dist)),
+                      id=$(uppercase(elements[j].name)),
+                      font-size=$(scale*0.45)]"(elements[j].symbol))
         addclickable!(canvas, dom"svg:rect[width = $scale, height = $scale,
                       x=$(elements[j].xpos*(scale+dist)), 
                       y=$(elements[j].ypos*(scale+dist)),
                       fill=$(color(elements[j].category)),
+                      fill-opacity=0.5,
                       id=$(elements[j].name)]"())
 
-        addclickable!(canvas, dom"svg:text[x=$((elements[j].xpos+0.05)*(scale+dist)), 
-                      y=$((elements[j].ypos+0.4)*(scale+dist)),
-                      id=$(uppercase(elements[j].name)),
-                      font-size=$(scale*0.45)]"(elements[j].symbol))
     end
     canvas
 end
