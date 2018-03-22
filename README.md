@@ -15,3 +15,6 @@ Polynomial roots toy inspired by [Leo C. Stein's](https://duetosymmetry.com/tool
 
 <img src="demo3.gif" style="width: 500px;"/>
 
+## ball.jl
+
+<img src="demo4.gif" style="width: 500px;"/>
