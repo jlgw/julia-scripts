@@ -1,4 +1,4 @@
-using CanvasWebIO, WebIO, Observables
+using CanvasWebIO, WebIO, Observables, Mux
 
 global running = true
 gf = 2500000.0
