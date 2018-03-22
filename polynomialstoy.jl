@@ -1,6 +1,5 @@
 using CanvasWebIO, Polynomials
 
-nroots = 5
 
 function rootsofunity(n::Integer)
     [cos(i*2pi/n)+im*sin(i*2pi/n) for i=0:n-1]
@@ -74,6 +73,7 @@ function rscale(p)
     rscalex(p[1])+im*rscaley(p[2])
 end
 
+nroots = 5
 rootsl = rootsofunity(nroots)
 gr = grid(width,height,xrange,yrange)
 
@@ -90,10 +90,8 @@ addmovable!.(roots_canvas, rmarkers)
 
 function setroots(canvas::Canvas, pol::Polynomials.Poly)
     newv = scale.(roots(pol))
-    for i in 1:nroots
-        canvas["root-$i"].val = newv[i]
-        CanvasWebIO.setindex_(canvas, newv[i], "root-$i")
-    end
+    map(i -> (canvas["root-$i"].val = newv[i]), 1:nroots)
+    map(i -> CanvasWebIO.setindex_(canvas, newv[i], "root-$i"), 1:nroots)
 end
 
 coeffs_canvas = Canvas([height, width], true)
@@ -110,10 +108,8 @@ addmovable!.(coeffs_canvas, cmarkers)
 
 function setcoeffs(canvas::Canvas, pol::Polynomials.Poly)
     newv = scale.(coeffs(pol))
-    for i in 1:nroots+1
-        canvas["coeff-$i"].val = newv[i]
-        CanvasWebIO.setindex_(canvas, newv[i], "coeff-$i")
-    end
+    map(i -> (canvas["coeff-$i"].val = newv[i]), 1:nroots+1)
+    map(i -> CanvasWebIO.setindex_(canvas, newv[i], "coeff-$i"), 1:nroots+1)
 end
 for i in 1:nroots
     on(roots_canvas["root-$i"]) do val
