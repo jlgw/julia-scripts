@@ -49,3 +49,5 @@ end
 
 addmovable!(field, ball)
 addmovable!(field, bat)
+
+webio_serve(page("/", req->field()))
