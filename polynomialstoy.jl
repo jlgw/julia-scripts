@@ -126,6 +126,6 @@ for i in 1:nroots+1
 end
 
 style = Dict(:display=>"inline-table", :verticalAlign=>"top", width=>"40%", :marginRight=>"20px")
-ux = Node(:div, Node(:div, "Roots:", Node(:br), roots_canvas(), style=style), Node(:div, "Coefficients:", Node(:br), coeffs_canvas(), style=style))
+ux(req) = Node(:div, Node(:div, "Roots:", Node(:br), roots_canvas(), style=style), Node(:div, "Coefficients:", Node(:br), coeffs_canvas(), style=style))
 
-webio_serve(page("/", req->ux))
+webio_serve(page("/", ux))
