@@ -53,6 +53,8 @@ ui.children[1].dom.props[:style] = Dict()
 ui.children[1].dom.props[:style][:display] = "none"
 
 on(table.selection) do val
-    observe(elementno)[] = elements[val].number
+    if val!=""
+        observe(elementno)[] = elements[val].number
+    end
 end
 webio_serve(page("/", req->Node(:div, table(), ui)))
