@@ -1,4 +1,4 @@
-using PeriodicTable, InteractNext, CanvasWebIO
+using PeriodicTable, InteractNext, CanvasWebIO, Mux
 
 const width  = 800
 const height = 500

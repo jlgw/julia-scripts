@@ -1,4 +1,4 @@
-using CanvasWebIO, Polynomials
+using CanvasWebIO, Polynomials, Mux
 
 
 function rootsofunity(n::Integer)
