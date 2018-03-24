@@ -1,6 +1,5 @@
 using CanvasWebIO, Polynomials, Mux
 
-
 function rootsofunity(n::Integer)
     [cos(i*2pi/n)+im*sin(i*2pi/n) for i=0:n-1]
 end
@@ -73,7 +72,7 @@ function rscale(p)
     rscalex(p[1])+im*rscaley(p[2])
 end
 
-nroots = 5
+nroots = 10
 rootsl = rootsofunity(nroots)
 gr = grid(width,height,xrange,yrange)
 
@@ -88,10 +87,18 @@ rmarkers = [dom"svg:circle[id=root-$i,
                            for (i,z) in enumerate(scale.(rootsl))]
 addmovable!.(roots_canvas, rmarkers)
 
-function setroots(canvas::Canvas, pol::Polynomials.Poly)
-    newv = scale.(roots(pol))
-    map(i -> (canvas["root-$i"].val = newv[i]), 1:nroots)
-    map(i -> CanvasWebIO.setindex_(canvas, newv[i], "root-$i"), 1:nroots)
+let
+    t = time()
+    global setroots
+    function setroots(canvas::Canvas, pol::Polynomials.Poly, throttle = 0.05)
+        tnew = time()
+        if tnew-t>throttle
+            newv = scale.(roots(pol))
+            map(i -> (canvas["root-$i"].val = newv[i]), 1:nroots)
+            map(i -> CanvasWebIO.setindex_(canvas, newv[i], "root-$i"), 1:nroots)
+            t = tnew
+        end
+    end
 end
 
 coeffs_canvas = Canvas([height, width], true)
@@ -106,10 +113,19 @@ cmarkers = [dom"svg:circle[id=coeff-$i,
 
 addmovable!.(coeffs_canvas, cmarkers)
 
-function setcoeffs(canvas::Canvas, pol::Polynomials.Poly)
-    newv = scale.(coeffs(pol))
-    map(i -> (canvas["coeff-$i"].val = newv[i]), 1:nroots+1)
-    map(i -> CanvasWebIO.setindex_(canvas, newv[i], "coeff-$i"), 1:nroots+1)
+let
+    t = time()
+    global setcoeffs
+    function setcoeffs(canvas::Canvas, pol::Polynomials.Poly, throttle = 0.05)
+        tnew = time()
+        if tnew-t>throttle
+            cfs = coeffs(pol)
+            newv = scale.(cfs)
+            map(i -> (canvas["coeff-$i"].val = newv[i]), 1:nroots+1)
+            map(i -> CanvasWebIO.setindex_(canvas, newv[i], "coeff-$i"), 1:nroots+1)
+            t = tnew
+        end
+    end
 end
 for i in 1:nroots
     on(roots_canvas["root-$i"]) do val
@@ -123,9 +139,7 @@ for i in 1:nroots+1
         pol = Poly(rscale.([coeffs_canvas["coeff-$k"][] for k in 1:(nroots+1)]))
         setroots(roots_canvas, pol)
     end
-end
-
-style = Dict(:display=>"inline-table", :verticalAlign=>"top", width=>"40%", :marginRight=>"20px")
+end style = Dict(:display=>"inline-table", :verticalAlign=>"top", width=>"40%", :marginRight=>"20px")
 ux(req) = Node(:div, Node(:div, "Roots:", Node(:br), roots_canvas(), style=style), Node(:div, "Coefficients:", Node(:br), coeffs_canvas(), style=style))
 
 webio_serve(page("/", ux))
