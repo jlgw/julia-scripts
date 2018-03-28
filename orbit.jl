@@ -22,6 +22,10 @@ planet2 = dom"svg:circle[id=planet2,
 velocity1 = Observable(chart.w, "velocity1", iv)
 velocity2 = Observable(chart.w, "velocity2", iv)
 
+addmovable!(chart, sun)
+addmovable!(chart, planet1)
+addmovable!(chart, planet2)
+
 @async while running
     sleep(t)
     distv1 = chart["planet1"][]-chart["sun"][]
@@ -35,10 +39,6 @@ velocity2 = Observable(chart.w, "velocity2", iv)
     chart["planet1"] = chart["planet1"][] + t*velocity1[]
     chart["planet2"] = chart["planet2"][] + t*velocity2[]
 end
-
-addmovable!(chart, sun)
-addmovable!(chart, planet1)
-addmovable!(chart, planet2)
 
 function responder(req)
     @async (chart["planet1"] = [400.0,100.0])
