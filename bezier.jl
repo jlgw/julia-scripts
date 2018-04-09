@@ -46,9 +46,9 @@ pts = (i -> dom"svg:circle[id=pt-$i,
 
 line = dom"svg:polyline"(attributes=Dict("id"=>"line", "points"=>coordsvgformat(bcurve)), style=curvestyle)
 gr = grid(width,height,xrange,yrange)
-addmovable!.(canvas, pts)
 addstatic!.(canvas, line)
 addstatic!.(canvas, gr)
+addmovable!.(canvas, pts)
 
 function getpts(canvas)
     hcat((i->rscale(canvas["pt-$i"][])).(1:nctrlpts)...)'
