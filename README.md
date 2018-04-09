@@ -18,3 +18,7 @@ Polynomial roots toy inspired by [Leo C. Stein's](https://duetosymmetry.com/tool
 ## ball.jl
 
 <img src="demo4.gif" style="width: 500px;"/>
+
+## bezier.jl
+
+<img src="demo5.gif" style="width: 500px;"/>
