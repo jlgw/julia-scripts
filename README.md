@@ -22,3 +22,7 @@ Polynomial roots toy inspired by [Leo C. Stein's](https://duetosymmetry.com/tool
 ## bezier.jl
 
 <img src="demo5.gif" style="width: 500px;"/>
+
+## lagrange.jl
+
+<img src="demo5.gif" style="width: 500px;"/>
