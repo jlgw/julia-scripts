@@ -25,4 +25,4 @@ Polynomial roots toy inspired by [Leo C. Stein's](https://duetosymmetry.com/tool
 
 ## lagrange.jl
 
-<img src="demo5.gif" style="width: 500px;"/>
+<img src="demo6.gif" style="width: 500px;"/>
